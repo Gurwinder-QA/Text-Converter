@@ -1,0 +1,328 @@
+make an apllication and u pls convert this project , using Flowbitereact, Nextjs, Tailwind css using below Global.css file for theming @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap%22'); @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap'); @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap'); /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"'); */
+
+@import "tailwindcss"; @plugin "flowbite-react/plugin/tailwindcss"; @source "../../.flowbite-react/class-list.json";
+
+/* @tailwind base; @tailwind components; */ @tailwind utilities;
+
+:root { --font-poppins: Poppins, sans-serif; }
+
+@theme inline { --color-background: #ffff; --color-foreground: #171717; --default-font-family: var(--font-poppins);
+
+/* --font-sans: var(--font-geist-sans); --font-mono: var(--font-geist-mono); */
+
+--color-body: #faf9f5 ;
+
+/* custom primary color */
+
+--color-primary: #ffbc0d; --color-primary-100: #fefce8; --color-primary-200: #fef9c2; --color-primaryshade: #313e4f; --color-primarygenric: #252d40; --color-primarydark: #1d263a; --color-highlight: #ffbc0d; /* custom secondary color */
+
+--color-secondary: #de1f26; --color-secondary-100: #ffe2e2; --color-secondary-200: #ffc9c9; --color-secondarydark: #de1f26; --color-secondaryshade: #ff6e60; --color-secondaryshadeone: #929394;
+
+/* custom color */
+
+--color-textbase:#ffff; --color-heading: #2b2b2b; --color-info-100: #fef3c6; --color-green-shade-100: #dcfce7; --color-green-shade-200: #b9f8cf; --color-textdark: #1d263a ;
+
+}
+
+body { background: var(--color-background); color: var(--color-foreground); font-family: var(--default-font-family); overflow: hidden; }
+
+.bg-primary {
+
+color: #1d263a !important }
+
+.hover:bg-secondary:hover {
+
+color: #fff !important }
+
+/* @media (prefers-color-scheme: dark) { :root { --background: #0a0a0a; --foreground: #ededed; } } */
+
+/************** custom css for carousal design **************/
+
+input, textarea, select, button { font-size: 15px; /* Prevent iOS zoom / -webkit-text-size-adjust: 100%; / Safari / older WebKit / text-size-adjust: 100%; / Standard property for modern browsers */ }
+
+.clear-all-btn { font-size: 12px!important; }
+
+.react-multiple-carousel__arrow--left { left: calc(0% + 2px) !important; }
+
+.react-multiple-carousel__arrow--right { right: calc(0% + 2px) !important; }
+
+.react-multiple-carousel__arrow { position: absolute; outline: 0; transition: all .5s; border-radius: 50%; z-index: 10 !important; border: 0; background: #de1f26ab !important; min-width: 2rem !important; min-height: 2rem !important; opacity: 1; cursor: pointer;
+
+} .comments-text { /* font-family: "Handlee", cursive; / font-family: "Edu NSW ACT Cursive", cursive; } .react-multiple-carousel__arrow:before { font-size: 20px; / color: #929394 !important; */ display: block; font-family: revicons; text-align: center; z-index: 2; position: relative; }
+
+.profile-count { position: absolute; right: -6px; background: #ffc224; z-index: 999; top: -4px; }
+
+.hero-section-images { height: 450px !important; width: 250px !important; position: absolute; right: 0; top: 0 }
+
+.brand-text { font-family: "Poppins", sans-serif; }
+
+.h-83 { height: 93%; }
+
+.h-90 { height: 90%; } .order-list-filters { position: absolute; top:-37px; right:40px; }
+
+.delivery-bar { top: 52px; z-index: 10 !important; overflow: hidden }
+
+.brand-bar { top: 0px; z-index: 10; position: sticky }
+
+.filter-cat-bar { top: 95px; background: #fff; z-index: 10; overflow: hidden }
+
+.bill-total-bar { top: 100px; z-index: 1;
+
+} .menu-content { overflow: auto; height:calc(100vh - 200px); padding-bottom:80px; } .page-content { overflow: auto!important; height: calc(100vh - 50px)!important; padding-bottom:140px!important; }
+
+.profile-count { top: 0px; position: absolute; left: -25px!important; z-index: 9999; width:100%;
+
+} .category-heading { position: sticky; top: 0px!important; background: #fff; z-index: 4;
+
+}
+
+.category-heading-wf { position: sticky; top: 232px; background: #fff; z-index: 4;
+
+}
+
+.appbtn-sticky { position: fixed; bottom: 15px; margin: 0 auto; left: 0px; width: 88%; right: 0; z-index: 12;
+
+}
+
+/* ##Device = Desktops ##Screen = 1281px to higher resolution desktops */
+
+/**************lodaer-screen css *************/
+
+.loader-main-box { position: fixed; height: 100%; width: 100%; background: #ffffffed; top: 0px; bottom: 0; z-index: 999; left: 0; }
+
+.loading-text { position: absolute; bottom: -48px; left: 15px; }
+
+.overlay-bg { background: #252d40b8; position: absolute; width: 100%; height: 100%; top: 0; bottom: 0; }
+
+@media (min-width: 1281px) {
+
+/* CSS */ .filter-cat-bar { top: 113px; }
+
+.category-heading { top: 235px; }
+
+.appbtn-sticky { position: fixed; bottom: 15px; margin: 0 auto; left: 0px; width: 70%; right: 0; } }
+
+/* ##Device = Laptops, Desktops ##Screen = B/w 1025px to 1280px */
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+/* CSS */ .filter-cat-bar { top: 113px; }
+
+.category-heading { top: 235px; }
+
+.appbtn-sticky { position: fixed; bottom: 15px; margin: 0 auto; left: 0px; width: 70%; right: 0; }
+
+}
+
+/* ##Device = Tablets, Ipads (portrait) ##Screen = B/w 768px to 1024px */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+/* CSS */ .filter-cat-bar { top: 113px; }
+
+.category-heading { top: 235px; } }
+
+/* ##Device = Tablets, Ipads (landscape) ##Screen = B/w 768px to 1024px */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+/* CSS */ .filter-cat-bar { top: 113px; }
+
+.category-heading { top: 235px; } }
+
+/* ##Device = Low Resolution Tablets, Mobiles (Landscape) ##Screen = B/w 481px to 767px */
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+/* CSS */
+
+}
+
+/* ##Device = Most of the Smartphones Mobiles (Portrait) ##Screen = B/w 320px to 479px */
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+/* CSS */
+
+}
+
+.login-bg-img1 { /* height: 350px; width: 150px; */ transform: translate(0%, -10%) rotate(0deg); }
+
+.login-bg-img2 { /* height: 350px; width: 150px; */ transform: translate(0%, 10%) rotate(180deg); }
+
+.bg-gradient-clr { background: #252D40; background: linear-gradient(120deg, rgba(37, 45, 64, 1) 79%, rgba(49, 62, 79, 1) 90%); }
+
+/* -------------------- Scroll Bar -------------------- */
+
+/* Firefox */
+
+{ scrollbar-width: thin; scrollbar-color: #ffbc0d #dee2e6; }
+/* WebKit (Chrome, Edge, Safari) */ ::-webkit-scrollbar { width: 6px; height: 6px; }
+
+::-webkit-scrollbar-track { box-shadow: inset 0 0 5px #fff; }
+
+::-webkit-scrollbar-thumb { background: #ffbc0d; border-radius: 10px; }
+
+::-webkit-scrollbar-thumb:hover { background: #ffbc0d; }
+ and 
+the application needs 3 main screens:
+
+1. Login Screen
+
+Only admins can access the system.
+
+Fields
+Field	Type
+Username / Email	Textbox
+Password	Password
+Login	Button
+Forgot Password (optional)	Link
+2. Create New Short Link + QR Screen
+
+This is the main form used when creating a new record.
+
+Form Design
+---------------------------------------------------------
+ Create New Short Link & QR
+---------------------------------------------------------
+
+Name / Label
+[_____________________________________]
+
+Destination URL
+[_____________________________________]
+
+Status
+(o) Active    ( ) Inactive
+
+Expiry Date (Optional)
+[  DD/MM/YYYY ]
+
+                [ Create ]
+
+---------------------------------------------------------
+Required Fields
+Field	Required
+Name / Label	Yes
+Destination URL	Yes
+Status	Yes
+Expiry Date	No
+After Clicking Create
+
+Display:
+
+---------------------------------------------------------
+ Generated Result
+---------------------------------------------------------
+
+Short Code:
+abc123
+
+Short URL:
+https://link.company.com/abc123
+[ Copy ]
+
+QR Code:
+[ QR IMAGE ]
+
+[ Download QR ]
+[ Print QR ]
+---------------------------------------------------------
+3. Manage Codes Screen (Dashboard)
+
+This page lists all created codes.
+
+Top Section
+---------------------------------------------------------
+ Search: [_____________]
+
+ Status:
+ [All ▼]
+
+ Expiry:
+ [All ▼]
+
+                     [ Create New ]
+---------------------------------------------------------
+Grid/Table
+Short Code	Name	Destination URL	Status	Expiry	Engagement	Actions
+abc123	Marketing QR	google.com	Active	31-Dec-26	150	Edit
+xyz789	Event QR	event.com	Inactive	None	45	Edit
+4. Edit Screen
+
+When admin clicks Edit.
+
+Fields
+---------------------------------------------------------
+ Edit Code
+---------------------------------------------------------
+
+Short Code
+[ abc123 ]  (Read Only)
+
+Name
+[ Marketing Campaign ]
+
+Destination URL
+[ https://new-url.com ]
+
+Status
+(o) Active
+( ) Inactive
+
+Expiry Date
+[ DD/MM/YYYY ]
+
+[ Save Changes ]
+---------------------------------------------------------
+Editable
+
+✅ Name
+
+✅ Destination URL
+
+✅ Status
+
+✅ Expiry Date
+
+Not Editable
+
+❌ Short Code
+
+❌ QR Code
+
+5. Analytics Screen
+
+According to the document, analytics should show engagement data.
+
+Dashboard Cards
+----------------------------------
+Total Engagements : 500
+----------------------------------
+
+Total Active Codes : 50
+
+Total Inactive Codes : 10
+
+Expired Codes : 5
+----------------------------------
+Analytics Table
+Code	Name	Clicks	Scans	Total
+abc123	Marketing	80	70	150
+Suggested Navigation Menu
+----------------------------------
+LOGO
+----------------------------------
+
+🏠 Dashboard
+
+➕ Create Code
+
+📋 Manage Codes
+
+📊 Analytics
+
+👤 Profile
+
+🚪 Logout
+----------------------------------

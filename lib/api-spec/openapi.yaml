@@ -1,22 +1,27 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: QR Link Manager API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: links
+    description: Short link management
+  - name: analytics
+    description: Analytics and reporting
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +29,249 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Login success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current admin user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /links:
+    get:
+      operationId: listLinks
+      tags: [links]
+      summary: List all short links
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, all]
+          description: Filter by status
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search by name or code
+        - name: expiry
+          in: query
+          schema:
+            type: string
+            enum: [all, expired, notExpired]
+          description: Filter by expiry
+      responses:
+        "200":
+          description: List of links
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShortLink"
+
+    post:
+      operationId: createLink
+      tags: [links]
+      summary: Create a new short link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShortLinkInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShortLink"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /links/{id}:
+    get:
+      operationId: getLink
+      tags: [links]
+      summary: Get a short link by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Link found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShortLink"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    patch:
+      operationId: updateLink
+      tags: [links]
+      summary: Update a short link
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShortLinkUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShortLink"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      operationId: deleteLink
+      tags: [links]
+      summary: Delete a short link
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /links/{id}/qr:
+    get:
+      operationId: getLinkQr
+      tags: [links]
+      summary: Get QR code data URL for a link
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: QR code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QrCode"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      tags: [analytics]
+      summary: Get analytics summary (totals, counts)
+      responses:
+        "200":
+          description: Summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsSummary"
+
+  /analytics/table:
+    get:
+      operationId: getAnalyticsTable
+      tags: [analytics]
+      summary: Get per-link engagement analytics
+      responses:
+        "200":
+          description: Per-link analytics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LinkAnalytics"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +279,152 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+
+    LoginInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: [username, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/AdminUser"
+        message:
+          type: string
+      required: [user, message]
+
+    AdminUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+      required: [id, username, email]
+
+    ShortLink:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        destinationUrl:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive]
+        expiryDate:
+          type: ["string", "null"]
+        clicks:
+          type: integer
+        scans:
+          type: integer
+        totalEngagements:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, code, name, destinationUrl, status, expiryDate, clicks, scans, totalEngagements, createdAt, updatedAt]
+
+    ShortLinkInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        destinationUrl:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          enum: [active, inactive]
+        expiryDate:
+          type: ["string", "null"]
+      required: [name, destinationUrl, status]
+
+    ShortLinkUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        destinationUrl:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          enum: [active, inactive]
+        expiryDate:
+          type: ["string", "null"]
+
+    QrCode:
+      type: object
+      properties:
+        dataUrl:
+          type: string
+        shortUrl:
+          type: string
+        code:
+          type: string
+      required: [dataUrl, shortUrl, code]
+
+    AnalyticsSummary:
+      type: object
+      properties:
+        totalEngagements:
+          type: integer
+        totalActiveCodes:
+          type: integer
+        totalInactiveCodes:
+          type: integer
+        expiredCodes:
+          type: integer
+        totalLinks:
+          type: integer
+      required: [totalEngagements, totalActiveCodes, totalInactiveCodes, expiredCodes, totalLinks]
+
+    LinkAnalytics:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        clicks:
+          type: integer
+        scans:
+          type: integer
+        total:
+          type: integer
+        status:
+          type: string
+          enum: [active, inactive]
+      required: [id, code, name, clicks, scans, total, status]

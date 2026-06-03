@@ -1,6 +1,6 @@
-# [Project name]
+# QR Link Manager
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An admin-only dashboard for creating, managing, and tracking short links and QR codes with engagement analytics.
 
 ## Run & Operate
 
@@ -19,18 +19,34 @@ _Replace the heading above with the project's name, and this line with one sente
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Tailwind CSS + shadcn/ui
+- QR generation: `qrcode` npm package
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — single source of truth for API contracts
+- `lib/db/src/schema/links.ts` — short links table
+- `lib/db/src/schema/admins.ts` — admin users table
+- `artifacts/api-server/src/routes/auth.ts` — login/logout/me endpoints
+- `artifacts/api-server/src/routes/links.ts` — CRUD + QR endpoints
+- `artifacts/api-server/src/routes/analytics.ts` — summary + table endpoints
+- `artifacts/qr-admin/src/` — React frontend
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Auth uses a simple header-based pattern (`x-admin-id`) stored in localStorage on the client — no JWT/sessions needed for a single-admin tool
+- QR codes are generated server-side with the `qrcode` package and returned as base64 data URLs
+- Short codes are 6-char random alphanumeric strings generated with uniqueness checks
+- Short URL base is `https://link.company.com/{code}` (update to real domain in production)
+- Analytics are computed from the links table (clicks + scans columns) — no separate analytics table
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Admin login (username: `admin`, password: `admin123`)
+- Create short links with name, destination URL, status, and optional expiry date
+- Auto-generates a 6-character short code and QR code on creation
+- Manage all codes — search, filter by status/expiry, edit, or delete
+- Analytics dashboard with total engagements, active/inactive/expired counts, and per-link breakdown
 
 ## User preferences
 
@@ -38,7 +54,9 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Admin password is stored as plain text hash in dev — replace with bcrypt for production
+- Clicks and scans are seeded but not automatically incremented (would need a redirect handler at the short URL domain)
+- Run `pnpm --filter @workspace/db run push` after any schema changes
 
 ## Pointers
 
