@@ -1,5 +1,7 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { AdminUser } from "@workspace/api-client-react/src/generated/api.schemas";
+import type { AdminUser } from "@workspace/api-client-react/src/generated/api.schemas";
 import { useGetMe, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -17,11 +19,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  const { data: serverUser, isLoading: serverLoading, isError } = useGetMe({
+  const {
+    data: serverUser,
+    isLoading: serverLoading,
+    isError,
+  } = useGetMe({
     query: {
       queryKey: getGetMeQueryKey(),
       retry: false,
-    }
+    },
   });
 
   useEffect(() => {
@@ -32,7 +38,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else {
       const localUser = localStorage.getItem("user");
       if (localUser) {
-        setUser(JSON.parse(localUser));
+        try {
+          setUser(JSON.parse(localUser));
+        } catch {
+          setUser(null);
+        }
       } else {
         setUser(null);
       }
@@ -49,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    queryClient.setQueryData(getGetMeQueryKey(), null);
+    queryClient.clear();
   };
 
   return (
