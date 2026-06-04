@@ -1,4 +1,5 @@
 {
+  "/(protected)/create/page": "app/(protected)/create/page.js",
   "/(protected)/dashboard/page": "app/(protected)/dashboard/page.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js"

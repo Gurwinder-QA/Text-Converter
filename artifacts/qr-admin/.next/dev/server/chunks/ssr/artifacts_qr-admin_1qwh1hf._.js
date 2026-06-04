@@ -176,15 +176,21 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$qr$2d$admin$2f$
 ;
 ;
 ;
-function Spinner({ className, ...props }) {
+const sizeClasses = {
+    sm: "size-3",
+    md: "size-4",
+    lg: "size-6",
+    xl: "size-8"
+};
+function Spinner({ className, size = "md", ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$2$2e$7_react$2d$dom$40$19$2e$1$2e$0_react$40$19$2e$1$2e$0_$5f$react$40$19$2e$1$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$545$2e$0_react$40$19$2e$1$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2Icon$3e$__["Loader2Icon"], {
         role: "status",
         "aria-label": "Loading",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$qr$2d$admin$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("size-4 animate-spin", className),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$artifacts$2f$qr$2d$admin$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])(sizeClasses[size], "animate-spin", className),
         ...props
     }, void 0, false, {
         fileName: "[project]/artifacts/qr-admin/src/components/ui/spinner.tsx",
-        lineNumber: 7,
+        lineNumber: 17,
         columnNumber: 5
     }, this);
 }

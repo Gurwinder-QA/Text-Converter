@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { AdminUser } from "@workspace/api-client-react/src/generated/api.schemas";
+import type { AdminUser } from "@workspace/api-client-react";
 import { useGetMe, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 
